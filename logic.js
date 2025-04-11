@@ -34,7 +34,7 @@ let settings = {
   minNarrowWidth: 300,      
   maxNarrowWidth: 650,
   minWidthAdjustment: 0, 
-  maxWidthAdjustment: 137,
+  maxWidthAdjustment: 142,
 }
 
 function getScaleFactors() {
