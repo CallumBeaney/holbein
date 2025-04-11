@@ -1,9 +1,3 @@
-// function addPanes() {
-//   let builder = "";
-//   for (let i=0; i<5; i++) builder += '<div class="pane"></div>';
-//   document.querySelector('.image-container').insertAdjacentHTML("afterbegin", builder);
-// }
-
 let state = {
   scrollPosition: 0,
 }
@@ -15,10 +9,8 @@ const defaults = {
 }
 
 const settings = {
-  // normalised value with set range
-  scrollPosition: 0,
   minScroll: 0, maxScroll: 1000,
-  scrollRateMultiplier: 20,
+  scrollRateMultiplier: 15,
 
   minPerspective: 1000,
   maxPerspective: 5000,
@@ -29,18 +21,7 @@ const settings = {
   
   minTranslateX: 0, maxTranslateX: 14,
   minTranslateY: 0, maxTranslateY: -215, 
-  minTranslateZ: -800, maxTranslateZ: 4500,
-}
-
-state = {
-  rotationX: settings.minRotationX,
-  rotationY: settings.minRotationY,
-  rotationZ: settings.minRotationZ,
-  translateX: settings.minTranslateX,
-  translateY: settings.minTranslateY,
-  translateZ: settings.minTranslateZ,
-  perspective: settings.minPerspective,
-  scrollPosition: settings.minScroll,
+  minTranslateZ: -800, maxTranslateZ: 4450,
 }
 
 function transform() {
@@ -56,7 +37,10 @@ function transform() {
 
   const image = document.querySelector('.pane[src]');
   if (image) {
-    image.style.transform = `translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`;
+    image.style.transform = `
+      translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotateX(${rotationX}deg) 
+      rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)
+    `;
   }
   
   const panes = document.querySelectorAll('.pane:not([src])'); // disgusting element selection logic
@@ -69,35 +53,28 @@ function handleMouseWheel(event) {
   // reverse scroll direction & reduce value to 1 or -1
   let scrollDelta = -Math.sign(event.deltaY) * settings.scrollRateMultiplier;
   
-  settings.scrollPosition += scrollDelta;
-  settings.scrollPosition = Math.min(Math.max(settings.scrollPosition, settings.minScroll), settings.maxScroll);
+  state.scrollPosition += scrollDelta;
+  state.scrollPosition = Math.min(Math.max(state.scrollPosition, settings.minScroll), settings.maxScroll);
 
   transform();
 
   event.preventDefault(); // disable pagescrolling
 }
 
-function mapRange(outMin, outMax, normalisedValue = settings.scrollPosition, inMin = settings.minScroll, inMax = settings.maxScroll) {
+function mapRange(outMin, outMax, normalisedValue = state.scrollPosition, inMin = settings.minScroll, inMax = settings.maxScroll) {
   return (normalisedValue - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
 function toggleFullScroll() {
-  // If we're close to maxScroll, go back to minScroll
-  if (settings.scrollPosition > settings.maxScroll - 10) {
-    settings.scrollPosition = settings.minScroll;
+  if (state.scrollPosition > settings.maxScroll - 10) {
+    state.scrollPosition = settings.minScroll;
   } else {
-    // Otherwise, go to maxScroll
-    settings.scrollPosition = settings.maxScroll;
+    state.scrollPosition = settings.maxScroll;
   }
   
-  // Update the transforms based on new position
   transform();
 }
 
-// addPanes();
 transform();
 window.addEventListener('wheel', handleMouseWheel, { passive: false });
-
 document.querySelector('.image-container').addEventListener('click', toggleFullScroll);
-// settings.scrollPosition = settings.minScroll;
-// toggleFullScroll();
