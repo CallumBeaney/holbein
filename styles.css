@@ -26,9 +26,7 @@ body {
   perspective: 1300px; 
   perspective-origin: 50% 50%;
   position: relative;
-  cursor: crosshair;
-  /* aspect-ratio: 16/9; */
-
+  cursor: url('cursor.png'), auto;
 }
 
 .image-container img {
