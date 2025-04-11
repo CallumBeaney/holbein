@@ -36,6 +36,6 @@ body {
   height: 100%;
   border-radius: 20px;
   position: absolute;
-  transition: transform 2.25s;
+  transition: transform 3s ease-out;
   object-fit: contain
 }

@@ -23,13 +23,13 @@ const settings = {
   minPerspective: 1000,
   maxPerspective: 5000,
   
-  minRotationX: 0, maxRotationX: 10,
-  minRotationY: 0, maxRotationY: -81,
-  minRotationZ: 0, maxRotationZ: 35,
+  minRotationX: 0, maxRotationX: 8,
+  minRotationY: 0, maxRotationY: -82,
+  minRotationZ: 0, maxRotationZ: 32,
   
   minTranslateX: 0, maxTranslateX: 14,
   minTranslateY: 0, maxTranslateY: -215, 
-  minTranslateZ: -800, maxTranslateZ: 4400,
+  minTranslateZ: -800, maxTranslateZ: 4500,
 }
 
 state = {
@@ -56,9 +56,7 @@ function transform() {
 
   const image = document.querySelector('.pane[src]');
   if (image) {
-    image.style.transform = `
-      translate3d(${translateX}px, ${translateY}px, ${translateZ}px) 
-      rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`;
+    image.style.transform = `translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`;
   }
   
   const panes = document.querySelectorAll('.pane:not([src])'); // disgusting element selection logic
