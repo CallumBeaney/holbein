@@ -31,10 +31,10 @@ let settings = {
 
   // settings for narrow width adjustment
   narrowWidthThreshold: 650,
-  minNarrowWidth: 320,      
+  minNarrowWidth: 300,      
   maxNarrowWidth: 650,
   minWidthAdjustment: 0, 
-  maxWidthAdjustment: 125,
+  maxWidthAdjustment: 137,
 }
 
 function getScaleFactors() {

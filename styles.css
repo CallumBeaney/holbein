@@ -26,7 +26,6 @@ body {
   perspective: 1300px; 
   perspective-origin: 50% 50%;
   position: relative;
-  cursor: url('cursor.png'), auto;
 }
 
 .image-container img {
