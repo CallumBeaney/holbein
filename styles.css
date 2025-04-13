@@ -10,10 +10,6 @@ body {
   margin: 20px;
 }
 
-.pane {
-  border: 0px solid rgba(255, 255, 255, 0.5);
-}
-
 .background-plane {
   height: inherit;
   overflow: hidden;

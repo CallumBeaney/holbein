@@ -1,19 +1,16 @@
 // I wrote this at 4am after a long day of work due to not being able to sleep owing to a regional mosquito burgeoning
 // I will not apologise for how it is designed but will accept pull requests
 
+
+// the scroll position and its bounds are the baseline against which all other transformations are normalised & calculated
 let state = {
   scrollPosition: 0,
-}
-
-let defaults = {
-  translateX: 0,  
-  translateY: 0,
   get translateZ() { return calculateMinTranslateZ(-50, -100); },
 }
 
 let settings = {
   minScroll: 0, maxScroll: 1000,
-  scrollRateMultiplier: 15,
+  scrollRateMultiplier: 5,
 
   minPerspective: 1000,
   maxPerspective: 5000,
@@ -26,7 +23,7 @@ let settings = {
   minTranslateY: 0, maxTranslateY: -215, 
   get yAxisBoundsMidpoint() { return this.maxTranslateY / 2; },
 
-  get minTranslateZ() { return defaults.translateZ; },
+  get minTranslateZ() { return state.translateZ; },
   maxTranslateZ: 4450,
 
   // settings for narrow width adjustment
@@ -34,7 +31,7 @@ let settings = {
   minNarrowWidth: 300,      
   maxNarrowWidth: 650,
   minWidthAdjustment: 0, 
-  maxWidthAdjustment: 142,
+  maxWidthAdjustment: 137,
 }
 
 function getScaleFactors() {
@@ -104,7 +101,7 @@ function transform() {
 
   document.querySelector('.image-container').style.perspective = `${perspective}px`;
 
-  const image = document.querySelector('.pane[src]');
+  const image = document.querySelector('.holbein');
   if (image) {
     image.style.transform = `
       translate3d(
@@ -117,19 +114,10 @@ function transform() {
       rotateZ(${rotationZ}deg)
     `;
   }
-  
-  const panes = document.querySelectorAll('.pane:not([src])');
-  panes.forEach(pane => {
-    pane.style.transform = `translate3d(
-      ${defaults.translateX * widthFactor}px, 
-      ${defaults.translateY * heightFactor}px, 
-      ${defaults.translateZ * scaleFactor}px
-    )`;
-  });
 }
 
 function setTransformSpeed(speed) {
-  const image = document.querySelector('.pane[src]');
+  const image = document.querySelector('.holbein');
   if (image) {
     image.style.transition = `transform ${speed}s ease-out`;
   }
@@ -161,7 +149,12 @@ function toggleFullScroll() {
   transform();
 }
 
-function mapRange(outMin, outMax, normalisedValue = state.scrollPosition, inMin = settings.minScroll, inMax = settings.maxScroll) {
+function mapRange(outMin, 
+                  outMax, 
+                  normalisedValue = state.scrollPosition, 
+                  inMin = settings.minScroll, 
+                  inMax = settings.maxScroll) 
+                  {
   return (normalisedValue - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
